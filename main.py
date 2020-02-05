@@ -1,5 +1,6 @@
-import requests
 import logging
+import random
+import requests
 import time
 import os
 
@@ -23,37 +24,37 @@ lights = [
 ]
 fire_profile = ColorAnimation(rate_s=0.2,
                               frames=[
-                                  ColorFrame(color=CIE(x=0.70, y=0.25), 
+                                  ColorFrame(color=CIE(x=0.70, y=0.29), 
                                              light=lights[0]),
                                   ColorFrame(color=CIE(x=0.65, y=0.35), 
                                              light=lights[1]),
-                                  ColorFrame(color=CIE(x=0.55, y=0.40), 
+                                  ColorFrame(color=CIE(x=0.62, y=0.30), 
                                              light=lights[2]),
-                                  ColorFrame(color=CIE(x=0.50, y=0.45), 
+                                  ColorFrame(color=CIE(x=0.60, y=0.35), 
                                              light=lights[3]),
-                                  ColorFrame(color=CIE(x=0.70, y=0.25), 
+                                  ColorFrame(color=CIE(x=0.70, y=0.29), 
                                              light=lights[1]),
                                   ColorFrame(color=CIE(x=0.65, y=0.35), 
                                              light=lights[2]),
-                                  ColorFrame(color=CIE(x=0.55, y=0.40), 
+                                  ColorFrame(color=CIE(x=0.62, y=0.30), 
                                              light=lights[3]),
-                                  ColorFrame(color=CIE(x=0.50, y=0.45), 
+                                  ColorFrame(color=CIE(x=0.60, y=0.35), 
                                              light=lights[0]),
-                                  ColorFrame(color=CIE(x=0.70, y=0.25), 
+                                  ColorFrame(color=CIE(x=0.70, y=0.29), 
                                              light=lights[2]),
                                   ColorFrame(color=CIE(x=0.65, y=0.35), 
                                              light=lights[3]),
-                                  ColorFrame(color=CIE(x=0.55, y=0.40), 
+                                  ColorFrame(color=CIE(x=0.62, y=0.30), 
                                              light=lights[0]),
-                                  ColorFrame(color=CIE(x=0.50, y=0.45), 
+                                  ColorFrame(color=CIE(x=0.60, y=0.35), 
                                              light=lights[1]),
-                                  ColorFrame(color=CIE(x=0.70, y=0.25), 
+                                  ColorFrame(color=CIE(x=0.70, y=0.29), 
                                              light=lights[3]),
                                   ColorFrame(color=CIE(x=0.65, y=0.35), 
                                              light=lights[0]),
-                                  ColorFrame(color=CIE(x=0.55, y=0.40), 
+                                  ColorFrame(color=CIE(x=0.62, y=0.30), 
                                              light=lights[1]),
-                                  ColorFrame(color=CIE(x=0.50, y=0.45), 
+                                  ColorFrame(color=CIE(x=0.60, y=0.35), 
                                              light=lights[2])
                               ])
 
@@ -83,6 +84,7 @@ def cycle_colors(profile):
         counter += 1
 
         if counter == len(profile.frames):
+            random.shuffle(profile.frames)
             counter = 0
 
         time.sleep(profile.rate_s)
