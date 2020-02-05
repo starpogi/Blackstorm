@@ -1,3 +1,4 @@
+import dataclasses
 import logging
 import random
 import requests
@@ -22,7 +23,7 @@ lights = [
     Light(id=11),
     Light(id=21)
 ]
-fire_profile = ColorAnimation(rate_s=0.2,
+fire_profile = ColorAnimation(rate_s=0.8,
                               frames=[
                                   ColorFrame(color=CIE(x=0.70, y=0.29), 
                                              light=lights[0]),
@@ -59,15 +60,29 @@ fire_profile = ColorAnimation(rate_s=0.2,
                               ])
 
 def change_light(id: int,
-                 x: float, 
-                 y: float,
+                 x: float = None, 
+                 y: float = None,
+                 hue: int = None,
+                 saturation: int = None,
+                 temperature: int = None,
+                 colormode: str = None,
+                 brightness: int = 254,
                  is_on: bool = True, 
                  ip: str = IP, 
                  key: str = KEY):
     payload = {
         "on": is_on,
-        "xy": [x, y]
+        "bri": brightness
     }
+
+    if x is not None and y is not None:
+        payload.setdefault("xy", [x, y])
+    elif hue is not None and saturation is not None:
+        payload.setdefault("hue", hue)
+        payload.setdefault("sat", saturation)
+    elif temperature is not None:
+        payload.setdefault("ct", temperature)
+        
     request = requests.put(f"http://{ip}/api/{key}/lights/{id}/state", 
                            json=payload)
     log.info(request.content)
@@ -76,9 +91,9 @@ def cycle_colors(profile):
     counter = 0
     
     while True:
-        change_light(profile.frames[counter].light.id,
-                     x=profile.frames[counter].color.x,
-                     y=profile.frames[counter].color.y,
+        frame = profile.frames[counter]
+        change_light(frame.light.id,
+                     **dataclasses.asdict(frame.color),
                      ip=IP,
                      key=KEY)
         counter += 1
