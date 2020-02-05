@@ -7,7 +7,8 @@ class LightState:
 
 @dataclasses.dataclass
 class Light:
-    name: str
+    id: int
+    name: str = ""
     state: LightState = dataclasses.field(default_factory=LightState)
-    modelid: str
-    uniqueid: str
+    modelid: str = ""
+    uniqueid: str = ""

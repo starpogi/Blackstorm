@@ -1,24 +1,60 @@
 import requests
 import logging
 import time
+import os
 
 from colors import CIE
 from colors.animations import ColorAnimation
+from colors.frames import ColorFrame
+from lights import Light
 
 logging.basicConfig()
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
-KEY = "ETKkOpw4AvR5nfIzLfNHCo0w1xFhjaL0NfxhFnQV"
-IP = "192.168.1.66"
+KEY = os.environ.get('KEY')
+IP = os.environ.get('IP')
 
-
+lights = [
+    Light(id=9),
+    Light(id=10),
+    Light(id=11),
+    Light(id=21)
+]
 fire_profile = ColorAnimation(rate_s=0.2,
                               frames=[
-                                  CIE(x=0.70, y=0.25),
-                                  CIE(x=0.65, y=0.35),
-                                  CIE(x=0.55, y=0.40),
-                                  CIE(x=0.50, y=0.45)
+                                  ColorFrame(color=CIE(x=0.70, y=0.25), 
+                                             light=lights[0]),
+                                  ColorFrame(color=CIE(x=0.65, y=0.35), 
+                                             light=lights[1]),
+                                  ColorFrame(color=CIE(x=0.55, y=0.40), 
+                                             light=lights[2]),
+                                  ColorFrame(color=CIE(x=0.50, y=0.45), 
+                                             light=lights[3]),
+                                  ColorFrame(color=CIE(x=0.70, y=0.25), 
+                                             light=lights[1]),
+                                  ColorFrame(color=CIE(x=0.65, y=0.35), 
+                                             light=lights[2]),
+                                  ColorFrame(color=CIE(x=0.55, y=0.40), 
+                                             light=lights[3]),
+                                  ColorFrame(color=CIE(x=0.50, y=0.45), 
+                                             light=lights[0]),
+                                  ColorFrame(color=CIE(x=0.70, y=0.25), 
+                                             light=lights[2]),
+                                  ColorFrame(color=CIE(x=0.65, y=0.35), 
+                                             light=lights[3]),
+                                  ColorFrame(color=CIE(x=0.55, y=0.40), 
+                                             light=lights[0]),
+                                  ColorFrame(color=CIE(x=0.50, y=0.45), 
+                                             light=lights[1]),
+                                  ColorFrame(color=CIE(x=0.70, y=0.25), 
+                                             light=lights[3]),
+                                  ColorFrame(color=CIE(x=0.65, y=0.35), 
+                                             light=lights[0]),
+                                  ColorFrame(color=CIE(x=0.55, y=0.40), 
+                                             light=lights[1]),
+                                  ColorFrame(color=CIE(x=0.50, y=0.45), 
+                                             light=lights[2])
                               ])
 
 def change_light(id: int,
@@ -39,9 +75,9 @@ def cycle_colors(profile):
     counter = 0
     
     while True:
-        change_light(9,
-                     x=profile.frames[counter].x,
-                     y=profile.frames[counter].y,
+        change_light(profile.frames[counter].light.id,
+                     x=profile.frames[counter].color.x,
+                     y=profile.frames[counter].color.y,
                      ip=IP,
                      key=KEY)
         counter += 1

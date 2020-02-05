@@ -1,10 +1,10 @@
 import dataclasses
 import typing 
 
-from colors import ColorSpace
+from colors.frames import ColorFrame
 
 @dataclasses.dataclass
 class ColorAnimation:
     rate_s: float
-    frames: typing.List[ColorSpace] = dataclasses.field(default_factory=list)
+    frames: typing.List[ColorFrame] = dataclasses.field(default_factory=list)
     repeat: bool = False

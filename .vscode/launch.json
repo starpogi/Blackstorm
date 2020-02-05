@@ -9,7 +9,11 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}\\main.py",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "env": {
+                "KEY": "ETKkOpw4AvR5nfIzLfNHCo0w1xFhjaL0NfxhFnQV",
+                "IP": "192.168.1.66"
+            }
         }
     ]
 }
